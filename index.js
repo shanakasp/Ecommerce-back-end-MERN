@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./db/Users");
+const Product = require("./db/Product");
 const app = express();
 var cors = require("cors");
 
@@ -59,5 +60,16 @@ app.post("/login", async (req, res) => {
     // Handle other errors
     console.error("Login failed:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/add-product", async (req, res) => {
+  try {
+    // Assuming Product.create returns a Promise
+    const result = await Product.create(req.body);
+    res.send(result); // Send the result back to the client
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
