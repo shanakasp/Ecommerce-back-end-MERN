@@ -73,3 +73,18 @@ app.post("/add-product", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.get("/products", async (req, resp) => {
+  try {
+    const products = await Product.find();
+
+    if (products.length > 0) {
+      resp.json(products); // Use resp.json() to send the array as JSON
+    } else {
+      resp.send("No data available");
+    }
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    resp.status(500).send("Internal Server Error");
+  }
+});
