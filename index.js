@@ -88,3 +88,8 @@ app.get("/products", async (req, resp) => {
     resp.status(500).send("Internal Server Error");
   }
 });
+
+app.delete("/product/:id", async (req, resp) => {
+  const result = await Product.deleteOne({ _id: req.params.id });
+  resp.send(result);
+});
