@@ -93,3 +93,12 @@ app.delete("/product/:id", async (req, resp) => {
   const result = await Product.deleteOne({ _id: req.params.id });
   resp.send(result);
 });
+
+app.get("/product/:id", async (req, resp) => {
+  const result = await Product.findOne({ _id });
+  if (result) {
+    resp.json(result); // Use resp.json() to send the array as JSON
+  } else {
+    resp.send("No data available");
+  }
+});
