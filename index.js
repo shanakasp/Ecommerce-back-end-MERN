@@ -95,10 +95,15 @@ app.delete("/product/:id", async (req, resp) => {
 });
 
 app.get("/product/:id", async (req, resp) => {
-  const result = await Product.findOne({ _id });
-  if (result) {
-    resp.json(result); // Use resp.json() to send the array as JSON
-  } else {
-    resp.send("No data available");
+  const productId = req.params.id; // Retrieve the product ID from the request parameters
+  try {
+    const result = await Product.findOne({ _id: productId });
+    if (result) {
+      resp.json(result); // Use resp.json() to send the result as JSON
+    } else {
+      resp.send("No data available");
+    }
+  } catch (error) {
+    resp.status(500).send("Internal Server Error");
   }
 });
