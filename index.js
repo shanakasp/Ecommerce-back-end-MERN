@@ -119,3 +119,20 @@ app.put("/product/:id", async (req, resp) => {
     resp.status(500).send("Internal Server Error");
   }
 });
+
+app.get("/search/:key", async (req, resp) => {
+  try {
+    let result = await Product.find({
+      $or: [
+        { name: { $regex: req.params.key, $options: "i" } }, // Case-insensitive regex
+        { company: { $regex: req.params.key, $options: "i" } },
+        { category: { $regex: req.params.key, $options: "i" } },
+      ],
+    });
+
+    resp.json(result);
+  } catch (error) {
+    console.error(error);
+    resp.status(500).json({ error: "Internal Server Error" });
+  }
+});
